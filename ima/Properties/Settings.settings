@@ -1,7 +1,27 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Dwscdv3.ima.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="DayStart" Type="System.TimeSpan" Scope="User">
+      <Value Profile="(Default)">07:00:00</Value>
+    </Setting>
+    <Setting Name="DayEnd" Type="System.TimeSpan" Scope="User">
+      <Value Profile="(Default)">21:00:00</Value>
+    </Setting>
+    <Setting Name="AutoLockScreen" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ColorGradientFull" Type="System.Windows.Media.Color" Scope="User">
+      <Value Profile="(Default)">#FF32CD32</Value>
+    </Setting>
+    <Setting Name="ColorGradientEmpty" Type="System.Windows.Media.Color" Scope="User">
+      <Value Profile="(Default)">#FFFF4500</Value>
+    </Setting>
+    <Setting Name="ColorAlert" Type="System.Windows.Media.SolidColorBrush" Scope="User">
+      <Value Profile="(Default)">#FFD00000</Value>
+    </Setting>
+    <Setting Name="AlertThreshold" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0.9</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

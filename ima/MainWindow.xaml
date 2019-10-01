@@ -1,12 +1,222 @@
-﻿<Window x:Class="ima.MainWindow"
+﻿<!--
+Copyright (C) 2019  Dwscdv3 <dwscdv3@hotmail.com>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<Window x:Name="window" x:Class="Dwscdv3.ima.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ima"
+        xmlns:local="clr-namespace:Dwscdv3.ima"
+        xmlns:prop="clr-namespace:Dwscdv3.ima.Properties"
+        xmlns:conv="clr-namespace:Dwscdv3.ima.ValueConverters"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="今"
+        WindowStyle="None" Background="{x:Null}" AllowsTransparency="True"
+        Topmost="True" ResizeMode="CanMinimize"
+        Foreground="White">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <SolidColorBrush x:Key="BackgroundBrush" Color="Black"/>
+        <conv:NormalizedValueToPercentageConverter x:Key="NormalizedValueToPercentageConverter"/>
+        <conv:DoubleToSolidColorBrushConverter x:Key="DoubleToColorConverter"
+                                               From="{Binding ColorGradientEmpty,
+                                                              Source={x:Static prop:Settings.Default}}"
+                                               To="{Binding ColorGradientFull,
+                                                            Source={x:Static prop:Settings.Default}}"/>
+        <conv:BooleanToObjectConverter x:Key="BoolToBackgroundConverter"
+                                       TrueValue="{StaticResource BackgroundBrush}"/>
+        <Storyboard x:Key="FlashingAnimationStoryboard" AutoReverse="True" RepeatBehavior="Forever">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                             From="0" To="1" Duration="0:0:0.3">
+                <DoubleAnimation.EasingFunction>
+                    <QuadraticEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </Window.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <ei:GoToStateAction TargetObject="{Binding ElementName=root}" StateName="Shrinked"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <DockPanel x:Name="root" RenderTransformOrigin="0.5,0.5">
+        <DockPanel.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform/>
+                <SkewTransform/>
+                <RotateTransform/>
+                <TranslateTransform/>
+            </TransformGroup>
+        </DockPanel.RenderTransform>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="DetailStates">
+                <VisualStateGroup.Transitions>
+                    <VisualTransition From="Shrinked" GeneratedDuration="0:0:0.2" To="Expanded">
+                        <VisualTransition.GeneratedEasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </VisualTransition.GeneratedEasingFunction>
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="panelInfo">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualTransition>
+                    <VisualTransition From="Expanded" GeneratedDuration="0:0:0.2" To="Shrinked">
+                        <VisualTransition.GeneratedEasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </VisualTransition.GeneratedEasingFunction>
+                    </VisualTransition>
+                </VisualStateGroup.Transitions>
+                <VisualState x:Name="Shrinked">
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="panelInfo">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="buttonSettings">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="panelInfo">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="root">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="28"/>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="rectangle">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Expanded"/>
+            </VisualStateGroup>
+            <VisualStateGroup x:Name="AlarmStates">
+                <VisualState x:Name="Flashing">
+                    <Storyboard>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="rectangle1" RepeatBehavior="Forever">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="0">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <QuadraticEase EasingMode="EaseOut"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="1">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <QuadraticEase EasingMode="EaseInOut"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <QuadraticEase EasingMode="EaseOut"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Stopped"/>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <DockPanel DockPanel.Dock="Right" HorizontalAlignment="Right">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseEnter">
+                    <ei:GoToStateAction TargetObject="{Binding ElementName=root}" StateName="Expanded"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="MouseLeave">
+                    <ei:GoToStateAction TargetObject="{Binding ElementName=root}" StateName="Shrinked"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <Grid>
+                <Rectangle x:Name="rectangle" Fill="Black"/>
+                <Rectangle x:Name="rectangle1" Fill="{Binding ColorAlert, Source={x:Static prop:Settings.Default}}" Opacity="0">
+                    <i:Interaction.Triggers>
+                        <ei:DataTrigger Binding="{Binding ElapsedNormalized, Source={x:Static local:DayProgress.Instance}}"
+                                        Comparison="GreaterThanOrEqual"
+                                        Value="{Binding AlertThreshold, Source={x:Static prop:Settings.Default}}">
+                            <ei:GoToStateAction StateName="Flashing"/>
+                        </ei:DataTrigger>
+                        <ei:DataTrigger Binding="{Binding ElapsedNormalized, Source={x:Static local:DayProgress.Instance}}"
+                                        Comparison="LessThan"
+                                        Value="{Binding AlertThreshold, Source={x:Static prop:Settings.Default}}">
+                            <ei:GoToStateAction StateName="Stopped"/>
+                        </ei:DataTrigger>
+                    </i:Interaction.Triggers>
+                </Rectangle>
+                <ProgressBar x:Name="progressBar"
+                             Value="{Binding RemainingNormalized, Source={x:Static local:DayProgress.Instance}, Mode=OneWay}"
+                             Maximum="1" SmallChange="0.001" LargeChange="0.01"
+                             Orientation="Vertical" Width="32"
+                             BorderThickness="0"
+                             Background="{x:Null}"
+                             Foreground="{Binding RemainingNormalized,
+                                                  Source={x:Static local:DayProgress.Instance},
+                                                  Converter={StaticResource DoubleToColorConverter}}"
+                             DockPanel.Dock="Right" HorizontalAlignment="Right"/>
+                <Button x:Name="buttonSettings"
+                        Command="{StaticResource OpenDialogCommand}"
+                        CommandParameter="{x:Type local:SettingsWindow}"
+                        Content="&#xE713;"
+                        VerticalAlignment="Top"
+                        Foreground="White">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
+                            <Setter Property="FontSize" Value="24"/>
+                            <Setter Property="Width" Value="32"/>
+                            <Setter Property="Height" Value="32"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{x:Null}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
+        </DockPanel>
+        <DockPanel x:Name="panelInfo"
+                   DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                   MinWidth="360" Margin="24"
+                   Background="Black">
+            <DockPanel.Resources>
+                <Style TargetType="{x:Type StackPanel}">
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                </Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                </Style>
+            </DockPanel.Resources>
+            <StackPanel Margin="0 20 48 32">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding RemainingNormalized,
+                                              Source={x:Static local:DayProgress.Instance},
+                                              Converter={StaticResource NormalizedValueToPercentageConverter}}"
+                               FontSize="80"/>
+                    <TextBlock Text="%" FontSize="60" VerticalAlignment="Bottom" Margin="5 0 0 3"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Remaining,
+                                              Source={x:Static local:DayProgress.Instance},
+                                              StringFormat=\{0:h\\:mm\}}"
+                               FontSize="60"/>
+                    <TextBlock Text="left" FontSize="40" VerticalAlignment="Bottom" Margin="10 0 0 3"/>
+                </StackPanel>
+            </StackPanel>
+        </DockPanel>
+    </DockPanel>
 </Window>

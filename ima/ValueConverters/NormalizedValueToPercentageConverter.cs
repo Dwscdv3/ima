@@ -15,26 +15,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System.Windows;
-using Microsoft.Win32;
+using System;
+using System.Globalization;
+using System.Windows.Data;
 
-namespace Dwscdv3.ima
+namespace Dwscdv3.ima.ValueConverters
 {
-    public partial class MainWindow : Window
+    internal class NormalizedValueToPercentageConverter : IValueConverter
     {
-        public MainWindow()
-        {
-            InitializeComponent();
-            FixPosition();
-            SystemEvents.DisplaySettingsChanged += (sender, e) => FixPosition();
-        }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>
+            Math.Ceiling(global::System.Convert.ToDouble(value) * 100).ToString();
 
-        public void FixPosition()
-        {
-            Left = SystemParameters.WorkArea.Left;
-            Top = SystemParameters.WorkArea.Top;
-            Width = SystemParameters.WorkArea.Width;
-            Height = SystemParameters.WorkArea.Height;
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
+            value is string s ? double.Parse(s) / 100 : default;
     }
 }

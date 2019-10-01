@@ -15,26 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System.Windows;
-using Microsoft.Win32;
+using System;
 
-namespace Dwscdv3.ima
+namespace Dwscdv3.ima.Helpers
 {
-    public partial class MainWindow : Window
+    internal static class DoubleExt
     {
-        public MainWindow()
-        {
-            InitializeComponent();
-            FixPosition();
-            SystemEvents.DisplaySettingsChanged += (sender, e) => FixPosition();
-        }
-
-        public void FixPosition()
-        {
-            Left = SystemParameters.WorkArea.Left;
-            Top = SystemParameters.WorkArea.Top;
-            Width = SystemParameters.WorkArea.Width;
-            Height = SystemParameters.WorkArea.Height;
-        }
+        public static double Clamp(this double d, double min = 0, double max = 1) =>
+            Math.Min(max, Math.Max(min, d));
     }
 }

@@ -15,26 +15,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System;
+using System.Reflection;
 using System.Windows;
-using Microsoft.Win32;
+using System.Windows.Input;
 
-namespace Dwscdv3.ima
+namespace Dwscdv3.ima.Commands
 {
-    public partial class MainWindow : Window
+    internal class OpenDialogCommand : ICommand
     {
-        public MainWindow()
+        public event EventHandler CanExecuteChanged
         {
-            InitializeComponent();
-            FixPosition();
-            SystemEvents.DisplaySettingsChanged += (sender, e) => FixPosition();
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
         }
 
-        public void FixPosition()
-        {
-            Left = SystemParameters.WorkArea.Left;
-            Top = SystemParameters.WorkArea.Top;
-            Width = SystemParameters.WorkArea.Width;
-            Height = SystemParameters.WorkArea.Height;
-        }
+        public bool CanExecute(object parameter) => typeof(Window).IsAssignableFrom((TypeInfo)parameter);
+
+        public void Execute(object parameter) =>
+            (Activator.CreateInstance((TypeInfo)parameter) as Window).ShowDialog();
     }
 }

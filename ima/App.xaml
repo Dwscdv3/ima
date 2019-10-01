@@ -1,9 +1,28 @@
-﻿<Application x:Class="ima.App"
+﻿<!--
+Copyright (C) 2019  Dwscdv3 <dwscdv3@hotmail.com>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<Application x:Class="Dwscdv3.ima.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:ima"
-             StartupUri="MainWindow.xaml">
+             xmlns:cmd="clr-namespace:Dwscdv3.ima.Commands"
+             StartupUri="MainWindow.xaml"
+             Exit="OnExit" Startup="OnStartup">
     <Application.Resources>
-         
+        <cmd:ShowWindowCommand x:Key="ShowWindowCommand"/>
+        <cmd:OpenDialogCommand x:Key="OpenDialogCommand"/>
     </Application.Resources>
 </Application>

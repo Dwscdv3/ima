@@ -15,26 +15,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System;
 using System.Windows;
-using Microsoft.Win32;
+using Dwscdv3.ima.Properties;
 
 namespace Dwscdv3.ima
 {
-    public partial class MainWindow : Window
+    public partial class SettingsWindow : Window
     {
-        public MainWindow()
+        public SettingsWindow()
         {
             InitializeComponent();
-            FixPosition();
-            SystemEvents.DisplaySettingsChanged += (sender, e) => FixPosition();
         }
 
-        public void FixPosition()
+        private void OnClosed(object sender, EventArgs e)
         {
-            Left = SystemParameters.WorkArea.Left;
-            Top = SystemParameters.WorkArea.Top;
-            Width = SystemParameters.WorkArea.Width;
-            Height = SystemParameters.WorkArea.Height;
+            Settings.Default.Save();
         }
     }
 }
