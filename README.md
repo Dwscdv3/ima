@@ -1,4 +1,4 @@
-# ½ñ ima
+# ä»Š ima
 
 ima is a software project aiming to improve your time management.
 
@@ -12,9 +12,9 @@ This is all of the features for now.
 
 ## Milestones
 
-[x] Daytime Countdown
-[ ] Tagging and Reminding
-[ ] Windows Screen-Time Tracking
+* [x] Daytime Countdown
+* [ ] Tagging and Reminding
+* [ ] Windows Screen-Time Tracking
 
 ## Contributing
 
